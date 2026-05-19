@@ -6,7 +6,7 @@ load_dotenv()
 
 cliente = OpenAI()
 
-def gerar_casos_uso():
+def gerar_casos_uso(modelo=MODELO_REFINADO):
 
     # Prompt de sistema
     prompt_sistema = f"""
@@ -25,7 +25,7 @@ def gerar_casos_uso():
     """
 
     resposta = cliente.chat.completions.create(
-        model="ft:gpt-3.5-turbo-1106:student::BwQ0UnpO",
+        model=modelo,
         messages = [
             { "role": "system", "content": prompt_sistema },
             { "role": "user", "content": prompt_usuario }
