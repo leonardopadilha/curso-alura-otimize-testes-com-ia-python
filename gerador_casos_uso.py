@@ -7,25 +7,25 @@ load_dotenv()
 cliente = OpenAI()
 
 def gerar_casos_uso():
-    documento_casos = carrega("documentos/explicacao_casos.txt")
 
     # Prompt de sistema
     prompt_sistema = f"""
         Você é um especialista em desenvolver casos de uso. Você deve adotar o padrão abaixo
         para gerar seu caso de uso:
 
-        {documento_casos}
+        *Nome da Persona*, em *contexto do app*, precisa realizar *tarefas no app* no aplicativo. Logo, 
+        *Benefício Esperado*, para isso ela *descrição detalhada da tarefa realizada*.
 
-        Considere os dados de entrada sugeridos pelo usuário.
+        Considere os dados de entrada sugeridos pelo usuário e gere o caso de uso no formato adequado.
     """
 
     # Prompt de orientação
     prompt_usuario = f"""
-        Gere um caso de uso para Ana que deseja realizar login na plataforma AcordeLab.
+        Ana deseja realizar login na plataforma AcordeLab.
     """
 
     resposta = cliente.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="ft:gpt-3.5-turbo-1106:student::BwQ0UnpO",
         messages = [
             { "role": "system", "content": prompt_sistema },
             { "role": "user", "content": prompt_usuario }
