@@ -6,7 +6,7 @@ load_dotenv()
 
 cliente = OpenAI()
 
-def gerar_casos_uso(modelo=MODELO_REFINADO):
+def gerar_casos_uso(prompt, modelo=MODELO_REFINADO):
 
     # Prompt de sistema
     prompt_sistema = f"""
@@ -19,16 +19,11 @@ def gerar_casos_uso(modelo=MODELO_REFINADO):
         Considere os dados de entrada sugeridos pelo usuário e gere o caso de uso no formato adequado.
     """
 
-    # Prompt de orientação
-    prompt_usuario = f"""
-        Ana deseja realizar login na plataforma AcordeLab.
-    """
-
     resposta = cliente.chat.completions.create(
         model=modelo,
         messages = [
             { "role": "system", "content": prompt_sistema },
-            { "role": "user", "content": prompt_usuario }
+            { "role": "user", "content": prompt }
         ],
         temperature=0.5
     )
