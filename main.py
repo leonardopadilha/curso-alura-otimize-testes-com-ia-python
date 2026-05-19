@@ -1,20 +1,14 @@
 from gerador_casos_uso import *
 from gerador_cenarios_teste import *
 from gerador_script_teste import *
+from tools import *
 
 def main():
-    casos_uso = gerar_casos_uso()
-    print("\nCaso de Uso: \n", casos_uso)
+    casos_uso = gerar_casos_uso(MODELO_GPT_3_5)
+    print("\nCaso de Uso - Não Refinado: \n", casos_uso)
 
-    """
-    cenario_teste = gerar_cenario_teste(caso_uso = casos_uso)
-    print("\nCenário de Teste: \n", cenario_teste)
-
-    script_teste = gerar_script_teste(caso_uso=casos_uso, cenario_teste=cenario_teste)
-    print("\nScript de Teste: \n", script_teste)
-
-    salva("script_temp_ia.py", script_teste)
-    """
+    casos_uso = gerar_casos_uso(MODELO_REFINADO)
+    print("\nCaso de Uso - Refinado: \n", casos_uso)
     
 if __name__ == "__main__":
     main()
