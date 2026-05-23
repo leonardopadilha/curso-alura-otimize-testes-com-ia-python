@@ -6,7 +6,6 @@ from tools import *
 def main():
     pedido_usuario = input("Digite um caso de uso: ")
 
-
     casos_uso = gerar_casos_uso(pedido_usuario, MODELO_GPT_3_5)
     print("\nCaso de Uso - Não Refinado: \n", casos_uso)
 
