@@ -2,6 +2,8 @@ MODELO_REFINADO = "ft:gpt-3.5-turbo-1106:student::BwsQjsSt"
 MODELO_GPT_3_5 = "gpt-3.5-turbo"
 MODELO_GPT_4 = "gpt-4-0125-preview"
 
+STATUS_COMPLETED = "completed"
+
 def carrega(nome_do_arquivo):
     try:
         with open(nome_do_arquivo, "r", encoding="utf-8") as arquivo:
