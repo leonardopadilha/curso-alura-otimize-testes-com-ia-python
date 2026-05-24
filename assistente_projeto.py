@@ -22,8 +22,7 @@ def criar_thread():
 
 def criar_assistente(lista_ids_arquivos=[], modelo=MODELO_GPT_4):
     assistente = cliente.beta.assistants.create(
-        name = "Atendente Eng. Software"
-
+        name = "Atendente Eng. Software",
         instructions = f"""
             Assuma que você é um assistente virtual especializado em orientar desenvolvedores e 
             QA testers na criação de testes automatizados para aplicações web usando Python e Selenium. 
@@ -45,7 +44,7 @@ def criar_assistente(lista_ids_arquivos=[], modelo=MODELO_GPT_4):
 
             Você também é um especialista em casos de uso, seguindo os templates indicados.
             E também é um especialista em gerar cenários de teste.
-        """
+        """,
 
         model = modelo,
         tools = [{ "type": "retrieval" }],
