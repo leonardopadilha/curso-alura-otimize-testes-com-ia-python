@@ -3,6 +3,7 @@ MODELO_GPT_3_5 = "gpt-3.5-turbo"
 MODELO_GPT_4 = "gpt-4-0125-preview"
 
 STATUS_COMPLETED = "completed"
+STATUS_FAILED = "failed"
 
 def carrega(nome_do_arquivo):
     try:

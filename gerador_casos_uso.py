@@ -6,10 +6,10 @@ load_dotenv()
 
 cliente = OpenAI()
 
-def gerar_casos_uso(prompt, assistente, thread, modelo=MODELO_REFINADO):
+def gerar_casos_uso(prompt, assistente, thread, modelo=MODELO_GPT_4):
 
     # Prompt de sistema
-    prompt_sistema = f"""
+    pergunta = f"""
         Gere um caso de uso para: {prompt}. 
         Para isso, busque nos arquivos associados a você o conteúdo # Exemplos de Caso de Uso
         (no arquivo exemplos_casos_uso.txt)
