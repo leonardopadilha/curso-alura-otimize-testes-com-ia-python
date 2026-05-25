@@ -42,7 +42,7 @@ def gerar_script_teste(cenario_teste, documento, dicionario_arquivos, assistente
     run = cliente.beta.threads.runs.create(
         thread_id = thread.id,
         assistant_id = assistente.id,
-        tools = [{ "type": "retrieval" }],
+        tools = [{ "type": "file_search" }],
         model = modelo
     )
 

@@ -29,21 +29,21 @@ def gerar_casos_uso(prompt, assistente, thread, modelo=MODELO_GPT_4):
         content = pergunta
     )
 
-    run = cliente.beta.threads.runds.create(
+    run = cliente.beta.threads.runs.create(
         thread_id = thread.id,
         assistant_id = assistente.id,
-        tools = [{ "type": "retrieval" }],
+        tools = [{ "type": "file_search" }],
         model = modelo
     )
 
-    ran = cliente.beta.threads.runds.retrieve(
+    ran = cliente.beta.threads.runs.retrieve(
         thread_id = thread.id,
         run_id = run.id
     )
 
     while ran.status != STATUS_COMPLETED:
         print("Gerando Caso: ", ran.status)
-        ran = cliente.beta.threads.run.retrieve(
+        ran = cliente.beta.threads.runs.retrieve(
             thread_id = thread.id,
             run_id = run.id
         )

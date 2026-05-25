@@ -28,7 +28,7 @@ def gerar_cenario_teste(caso_uso, documento, dicionario_arquivos, assistente, th
     run = cliente.beta.threads.runs.create(
         thread_id = thread.id,
         assistant_id = assistente.id,
-        tools = [{ "type": "retrieval" }],
+        tools = [{ "type": "file_search" }],
         model = modelo
     )
 
