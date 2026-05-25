@@ -7,20 +7,36 @@ load_dotenv()
 
 cliente = OpenAI()
 
-def apagar_assistente(assistant_id):
-    cliente.beta.assistants.delete(assistant_id)
+def apagar_assistente(assistente_id):
+    cliente.beta.assistants.delete(assistente_id)
 
 def apagar_thread(thread_id):
     cliente.beta.threads.delete(thread_id)
 
 def apagar_arquivos(lista_ids_arquivos):
     for um_id in lista_ids_arquivos:
-        cliente.files.delete(um_id)
+        try:
+            cliente.files.delete(um_id)
+        except Exception as e:
+            print(f"Falha ao apagar arquivo {um_id}: {e}")
+
+def apagar_vector_store(vector_store_id):
+    if vector_store_id:
+        try:
+            cliente.vector_stores.delete(vector_store_id)
+        except Exception as e:
+            print(f"Falha ao apagar vector store {vector_store_id}: {e}")
 
 def criar_thread():
     return cliente.beta.threads.create()
 
 def criar_assistente(lista_ids_arquivos=[], modelo=MODELO_GPT_4):
+    # API v2: arquivos são anexados via vector store + file_search
+    vector_store = cliente.vector_stores.create(
+        name="Base AcordeLab",
+        file_ids=lista_ids_arquivos,
+    )
+
     assistente = cliente.beta.assistants.create(
         name = "Atendente Eng. Software",
         instructions = f"""
@@ -47,11 +63,13 @@ def criar_assistente(lista_ids_arquivos=[], modelo=MODELO_GPT_4):
         """,
 
         model = modelo,
-        tools = [{ "type": "retrieval" }],
-        file_ids = lista_ids_arquivos
+        tools = [{ "type": "file_search" }],
+        tool_resources = {
+            "file_search": {"vector_store_ids": [vector_store.id]}
+        },
     )
 
-    return assistente
+    return assistente, vector_store.id
 
 def criar_lista_ids_app_web(diretorio = "AcordeLab"):
     lista_ids_arquivos = []
