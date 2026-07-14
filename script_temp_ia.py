@@ -5,44 +5,99 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 # Configurando o caminho do driver do Chromium
-chrome_driver_path = "driver/chromedriver.exe"
+chrome_driver_path="driver/chromedriver.exe"
 
-# Configurando as opções do navegador
-chrome_options = Options()
-chrome_options.headless = False
+# Configurações do Chrome
+options = Options()
+options.headless = False  # Executa o Chrome em modo headless (opcional)
 
 # Inicializando o serviço do driver
 service = Service(chrome_driver_path)
 
-# Inicializando o navegador
-driver = webdriver.Chrome(service=service, options=chrome_options)
+# Lista de casos de teste
+test_cases = [
+    {
+        "name": "Test Login Valido",
+        "description": "Teste de login com credenciais válidas.",
+        "input": {
+            "email": "email@acordelab.com.br",
+            "senha": "123senha"
+        },
+        "expectedOutcome": {
+            "redirect": "home.html",
+            "status": "Aprovado"
+        }
+    },
+    {
+        "name": "Test Login Invalido Senha Errada",
+        "description": "Teste de login com senha errada.",
+        "input": {
+            "email": "email@acordelab.com.br",
+            "senha": "senhaerrada"
+        },
+        "expectedOutcome": {
+            "errorMessage": "E-mail ou senha incorretos. Tente novamente.",
+            "pageStay": "login.html",
+            "status": "Reprovado"
+        }
+    },
+    {
+        "name": "Test Login Invalido Email Errado",
+        "description": "Teste de login com email errado.",
+        "input": {
+            "email": "wrongemail@acordelab.com.br",
+            "senha": "123senha"
+        },
+        "expectedOutcome": {
+            "errorMessage": "E-mail ou senha incorretos. Tente novamente.",
+            "pageStay": "login.html",
+            "status": "Reprovado"
+        }
+    },
+    {
+        "name": "Test Login Invalido Campos Vazios",
+        "description": "Teste de login com campos vazios.",
+        "input": {
+            "email": "",
+            "senha": ""
+        },
+        "expectedOutcome": {
+            "errorMessage": "E-mail ou senha não podem estar vazios.",
+            "pageStay": "login.html",
+            "status": "Reprovado"
+        }
+    }
+]
 
-try:
-    # Abrir o navegador e acessar a URL da plataforma AcordeLab
-    driver.get("https://almsantana.github.io/")
-    time.sleep(3)
+# Função para testar cada caso
+def run_test_case(test_case):
+    driver = webdriver.Chrome(service=service, options=options)
+    driver.get("https://almsantana.github.io/")  # URL da aplicação
 
-    # Verificar se a página inicial foi carregada corretamente
-    assert "AcordeLab" in driver.title
-
-    # Preencher o campo de e-mail
+    # Encontra os campos de email e senha
     email_input = driver.find_element(By.ID, "email")
-    email_input.send_keys("email@acordelab.com.br")
+    senha_input = driver.find_element(By.ID, "senha")
+    botao_login = driver.find_element(By.CLASS_NAME, "botao-login")
 
-    # Preencher o campo de senha
-    password_input = driver.find_element(By.ID, "senha")
-    password_input.send_keys("123senha")
+    # Insere os dados de entrada
+    email_input.send_keys(test_case["input"]["email"])
+    senha_input.send_keys(test_case["input"]["senha"])
+    botao_login.click()
 
-    # Clicar no botão "Entrar"
-    enter_button = driver.find_element(By.CLASS_NAME, "botao-login")
-    enter_button.click()
+    time.sleep(2)  # Espera a resposta do servidor
 
-    # Dando uma pausa de 3 segundos antes de fechar o script
-    time.sleep(3)
+    if test_case["expectedOutcome"]["status"] == "Aprovado":
+        # Verificação para redirecionamento
+        assert "home.html" in driver.current_url, f"Teste {test_case['name']} falhou: O usuário não foi redirecionado corretamente."       
+    else:
+        # Verificação de mensagem de erro
+        mensagem_erro = driver.find_element(By.CLASS_NAME, "mensagem-erro")  # Ajustar de acordo com a classe correta de erro
+        assert mensagem_erro.is_displayed(), f"Teste {test_case['name']} falhou: Mensagem de erro não exibida."
 
-except Exception as e:
-    print(f"Ocorreu um erro: {e}")
-
-finally:
-    # Fechar o navegador
     driver.quit()
+
+# Execução dos casos de teste
+for test_case in test_cases:
+    run_test_case(test_case)
+
+time.sleep(3)  # Pausa antes de fechar o script
