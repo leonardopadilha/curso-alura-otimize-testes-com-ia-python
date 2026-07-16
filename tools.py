@@ -1,6 +1,7 @@
 MODELO_REFINADO = "ft:gpt-3.5-turbo-1106:student::BwsQjsSt"
 MODELO_GPT_3_5 = "gpt-3.5-turbo"
 MODELO_GPT_4 = "gpt-4o-mini"
+MODELO_EMBEDDING = "text-embedding-3-small"
 
 STATUS_COMPLETED = "completed"
 STATUS_FAILED = "failed"
