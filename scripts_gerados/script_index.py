@@ -1,98 +1,116 @@
 ```python
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 import time
 
-# Configurações do Chrome
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # Executa o Chrome em modo headless (opcional)
-service = Service('caminho/para/chromedriver')  # Colocar o caminho para o seu chromedriver executável
+# Configurações do ChromeDriver
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Executa o Chrome em modo headless
+service = Service('caminho/para/chromedriver')  # Substitua pelo caminho do seu ChromeDriver
 
-# Lista de casos de teste
+# Casos de teste
 test_cases = [
     {
-        "name": "Test Login Valido",
-        "description": "Teste de login com credenciais válidas.",
-        "input": {
+        "case_id": 1,
+        "description": "Login bem-sucedido de Ana",
+        "user": {
             "email": "email@acordelab.com.br",
             "senha": "123senha"
         },
-        "expectedOutcome": {
-            "redirect": "home.html",
-            "status": "Aprovado"
-        }
-    },
-    {
-        "name": "Test Login Invalido Senha Errada",
-        "description": "Teste de login com senha errada.",
-        "input": {
-            "email": "email@acordelab.com.br",
-            "senha": "senhaerrada"
+        "expected_result": {
+            "redirected_to": "home.html",
+            "error_message_visible": False
         },
-        "expectedOutcome": {
-            "errorMessage": "E-mail ou senha incorretos. Tente novamente.",
-            "pageStay": "login.html",
-            "status": "Reprovado"
-        }
+        "status": "Aprovado"
     },
     {
-        "name": "Test Login Invalido Email Errado",
-        "description": "Teste de login com email errado.",
-        "input": {
-            "email": "wrongemail@acordelab.com.br",
+        "case_id": 2,
+        "description": "Login com senha incorreta",
+        "user": {
+            "email": "email@acordelab.com.br",
+            "senha": "senhaErrada"
+        },
+        "expected_result": {
+            "redirected_to": "index.html",
+            "error_message_visible": True
+        },
+        "status": "Rejeitado"
+    },
+    {
+        "case_id": 3,
+        "description": "Login com email incorreto",
+        "user": {
+            "email": "emailErrado@acordelab.com.br",
             "senha": "123senha"
         },
-        "expectedOutcome": {
-            "errorMessage": "E-mail ou senha incorretos. Tente novamente.",
-            "pageStay": "login.html",
-            "status": "Reprovado"
-        }
+        "expected_result": {
+            "redirected_to": "index.html",
+            "error_message_visible": True
+        },
+        "status": "Rejeitado"
     },
     {
-        "name": "Test Login Invalido Campos Vazios",
-        "description": "Teste de login com campos vazios.",
-        "input": {
+        "case_id": 4,
+        "description": "Login com campos em branco",
+        "user": {
             "email": "",
             "senha": ""
         },
-        "expectedOutcome": {
-            "errorMessage": "E-mail ou senha não podem estar vazios.",
-            "pageStay": "login.html",
-            "status": "Reprovado"
-        }
+        "expected_result": {
+            "redirected_to": "index.html",
+            "error_message_visible": True
+        },
+        "status": "Rejeitado"
     }
 ]
 
-# Função para testar cada caso
-def run_test_case(test_case):
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.get("http://path.to.acordelab/index.html")  # URL da aplicação
+# Inicializa o driver
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Encontra os campos de email e senha
-    email_input = driver.find_element(By.ID, "email")
-    senha_input = driver.find_element(By.ID, "senha")
-    botao_login = driver.find_element(By.CLASS_NAME, "botao-login")
-    
-    # Insere os dados de entrada
-    email_input.send_keys(test_case["input"]["email"])
-    senha_input.send_keys(test_case["input"]["senha"])
-    botao_login.click()
-    
-    time.sleep(2)  # Espera a resposta do servidor
-
-    if test_case[" expectedOutcome"]["status"] == "Aprovado":
-        # Verificação para redirecionamento
-        assert "home.html" in driver.current_url, f"Teste {test_case['name']} falhou: O usuário não foi redirecionado corretamente."
-    else:
-        # Verificação de mensagem de erro
-        mensagem_erro = driver.find_element(By.CLASS_NAME, "mensagem-erro")  # Ajustar de acordo com a classe correta de erro
-        assert mensagem_erro.is_displayed(), f"Teste {test_case['name']} falhou: Mensagem de erro não exibida."
-
-    driver.quit()
-
-# Execução dos casos de teste
+# Itera pelos casos de teste
 for test_case in test_cases:
-    run_test_case(test_case)
+    # Acessa a página de login
+    driver.get('caminho/para/index.html')  # Substitua pelo caminho do arquivo index.html
+    
+    # Preenche o formulário com os dados do usuário
+    email_field = driver.find_element(By.ID, "email")
+    password_field = driver.find_element(By.ID, "senha")
+    login_button = driver.find_element(By.CSS_SELECTOR, ".botao-login")
+    
+    # Preenche email e senha
+    email_field.send_keys(test_case["user"]["email"])
+    password_field.send_keys(test_case["user"]["senha"])
+    
+    # Clica no botão de login
+    login_button.click()
+    
+    # Aguarda alguns segundos para a página carregar
+    time.sleep(2)
+    
+    # Verifica o resultado
+    current_url = driver.current_url
+    error_message_visible = False
+    
+    # Verifica se a mensagem de erro está visível
+    try:
+        driver.find_element(By.CSS_SELECTOR, ".error-message")  # Substitua pelo seletor correto
+        error_message_visible = True
+    except:
+        error_message_visible = False
+    
+    # Determina se o teste foi Aprovado ou Rejeitado
+    if (current_url.endswith(test_case["expected_result"]["redirected_to"]) and
+        error_message_visible == test_case["expected_result"]["error_message_visible"]):
+        result = "Aprovado"
+    else:
+        result = "Rejeitado"
 
-time.sleep(3)  # Pausa antes de fechar o script
+    # Exibe o resultado do teste
+    print(f'Caso de Teste {test_case["case_id"]}: {test_case["description"]} - Resultado: {result}')
+
+# Pausa de 3 segundos antes de fechar o script
+time.sleep(3)
+driver.quit()
 ```

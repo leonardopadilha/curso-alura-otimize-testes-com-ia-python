@@ -1,0 +1,52 @@
+[
+    {
+        "documento": "cursos.html",
+        "meta_descricao": "Nome do Arquivo: cursos.html  \nPropósito do Arquivo: Permitir que o usuário visualize e continue seus cursos de violão, acompanhando o progresso e acessando conteúdos interativos como vídeos.  \nTipo de Arquivo: HTML  ",
+        "caminho": "AcordeLab\\cursos.html"
+    },
+    {
+        "documento": "home.html",
+        "meta_descricao": "Nome do Arquivo: home.html  \nPropósito do Arquivo: Facilitar a navegação do usuário na seleção de cursos de música, permitindo que escolha entre violão, piano e guitarra, além de buscar por conteúdos específicos.  \nTipo de Arquivo: HTML  ",
+        "caminho": "AcordeLab\\home.html"
+    },
+    {
+        "documento": "index.html",
+        "meta_descricao": "- Nome do Arquivo: index.html\n- Propósito do Arquivo: Facilitar o login do usuário no sistema AcordeLab, permitindo a inserção de e-mail e senha, com feedback para erros de autenticação.\n- Tipo de Arquivo: HTML",
+        "caminho": "AcordeLab\\index.html"
+    },
+    {
+        "documento": "cursos.css",
+        "meta_descricao": "Nome do Arquivo: cursos.css  \nPropósito do Arquivo: Estilizar a interface de uma aplicação de cursos online, proporcionando uma experiência visual atraente e interativa ao usuário, com foco em uma navegação clara e fácil acesso às informações dos cursos.  \nTipo de Arquivo: CSS  ",
+        "caminho": "AcordeLab\\css\\cursos.css"
+    },
+    {
+        "documento": "home.css",
+        "meta_descricao": "Nome do Arquivo: home.css  \nPropósito do Arquivo: Estilizar a interface de um site, proporcionando uma experiência visual atraente e interativa, com ênfase na estrutura de layout, tipografia e componentes de navegação.  \nTipo de Arquivo: CSS",
+        "caminho": "AcordeLab\\css\\home.css"
+    },
+    {
+        "documento": "index.css",
+        "meta_descricao": "Nome do Arquivo: index.css  \nPropósito do Arquivo: Estilizar a interface de um formulário de login, proporcionando um design moderno e responsivo, com foco na usabilidade e na experiência do usuário.  \nTipo de Arquivo: CSS",
+        "caminho": "AcordeLab\\css\\index.css"
+    },
+    {
+        "documento": "reset.css",
+        "meta_descricao": "Nome do Arquivo: reset.css  \nPropósito do Arquivo: O arquivo tem como principal função redefinir os estilos padrão de elementos HTML, garantindo que todos os navegadores apresentem uma aparência consistente e limpa, removendo margens, preenchimentos e bordas indesejadas.  \nTipo de Arquivo: CSS  ",
+        "caminho": "AcordeLab\\css\\reset.css"
+    },
+    {
+        "documento": "cursos.js",
+        "meta_descricao": "Nome do Arquivo: cursos.js  \nPropósito do Arquivo: O arquivo permite que o usuário visualize e interaja com informações dinâmicas de um curso, como vídeos, nível, descrição e imagem, utilizando dados armazenados no localStorage.  \nTipo de Arquivo: JS",
+        "caminho": "AcordeLab\\js\\cursos.js"
+    },
+    {
+        "documento": "home.js",
+        "meta_descricao": "Nome do Arquivo: home.js  \nPropósito do Arquivo: Permitir que os usuários filtrem e busquem cursos de música, além de selecionar um curso para visualizar detalhes em uma nova página.  \nTipo de Arquivo: JS",
+        "caminho": "AcordeLab\\js\\home.js"
+    },
+    {
+        "documento": "index.js",
+        "meta_descricao": "- Nome do Arquivo: index.js\n- Propósito do Arquivo: O arquivo gerencia a funcionalidade de login, verificando as credenciais do usuário e redirecionando para a página inicial em caso de sucesso ou exibindo uma mensagem de erro em caso de falha.\n- Tipo de Arquivo: JS",
+        "caminho": "AcordeLab\\js\\index.js"
+    }
+]

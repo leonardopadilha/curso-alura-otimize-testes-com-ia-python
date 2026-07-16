@@ -28,9 +28,9 @@ def gerar_meta_descricao(documento, nome_arquivo, modelo=MODELO_GPT_4):
         Sua meta-descrição deve incluir:
 
         - Nome do Arquivo: {nome_arquivo}
-        - Propósito do Arquivo: Enfatize a ação principal do usuário do arquivo 
-        de acordo com o conteúdo. Não mencione outros tipos de linguagem a não ser 
-        a utilizada para escrever o documento. Disponível no arquivo {nome_arquivo}.
+        - Propósito do Arquivo: Enfatize a ação principal do usuário do arquivo de acordo com o conteúdo.
+        Não mencione outros tipos de linguagem a não ser a utilizada para escrever o documento. Disponível no
+        arquivo {nome_arquivo}.
         - Tipo de Arquivo: HTML, CSS ou JS (escolha com base na linguagem usada)
 
         Como saída gere apenas a meta-descrição que será utilizada para gerar embeddings.
