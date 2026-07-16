@@ -12,7 +12,7 @@ def gerar_embedding(texto, modelo=MODELO_EMBEDDING):
     return cliente.embeddings.create(
         input=texto,
         model=modelo
-    )
+    ).data[0].embedding
 
 def gerar_meta_descricao(documento, nome_arquivo, modelo=MODELO_GPT_4):
     prompt_sistema = f""""
